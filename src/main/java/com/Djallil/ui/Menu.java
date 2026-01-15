@@ -19,7 +19,8 @@ public class Menu {
                 case 1 -> ajouter();
                 case 2 -> afficher();
                 case 3 -> modifier();
-                case 4 -> supprimer();
+                case 4 -> moyenne();
+                case 5 -> supprimer();
                 case 0 -> System.out.println("Au revoir");
             }
         } while (choix != 0);
@@ -30,7 +31,8 @@ public class Menu {
             1. Ajouter un étudiant
             2. Afficher les étudiants
             3. Modifier une note
-            4. Supprimer un étudiant
+            4. Afficher la moyenne du groupe
+            5. Supprimer un étudiant
             0. Quitter
         """);
     }
@@ -72,5 +74,9 @@ public class Menu {
         scanner.nextLine();
 
         service.supprimer(nom);
+    }
+
+    private void moyenne() {
+        service.moyenne();
     }
 }

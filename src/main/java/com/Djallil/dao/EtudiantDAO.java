@@ -37,6 +37,20 @@ public class EtudiantDAO {
         }
     }
 
+    public static double averageEtudiant() {
+        String sql = "select avg(note) as moyenne from etudiant";
+        double moyenne = 0.0;
+        try(Connection conn = DatabaseConnection.getConnection();
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                moyenne = rs.getDouble("moyenne");
+            }
+        } catch (SQLException e) {
+            throw new DaoException("Erreur lors du calcul de la moyenne", e);
+        }
+        return moyenne;
+    }
     public static void deleteByNom(String nom) {
         String sql = "delete from etudiant where nom = ?";
 
@@ -45,7 +59,7 @@ public class EtudiantDAO {
             ps.setString(1, nom);
             ps.executeUpdate();
         } catch (SQLException e){
-            e.printStackTrace();
+            throw new DaoException("Erreur lors de la suppression de l'étudiant par le nom", e);
         }
     }
 
@@ -64,28 +78,8 @@ public class EtudiantDAO {
                 etudiants.add(new Etudiant(nom, note));
             }
             } catch (SQLException e){
-            e.printStackTrace();
+            throw new DaoException("Erreur lors de l'affichage des étudiants", e);
         }
         return etudiants;
-    }
-
-    public Etudiant findByName(String nom) {
-        String sql = "select * from etudiant where nom = ?";
-
-        try( Connection conn = DatabaseConnection.getConnection();
-        PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, nom);
-            ResultSet rs = ps.executeQuery();
-
-            if (rs.next()){
-                String nomEtudiant = rs.getString("nom");
-                double note = rs.getDouble("note");
-
-                return new Etudiant(nomEtudiant, note);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 }

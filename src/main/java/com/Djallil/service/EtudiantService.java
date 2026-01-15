@@ -25,6 +25,11 @@ public class EtudiantService {
         System.out.println("Note modifiée");
     }
 
+    public void moyenne() {
+        double moyenne = EtudiantDAO.averageEtudiant();
+        System.out.println("Voici la moyenne du groupe : " + moyenne + ".");
+    }
+
     public void supprimer(String nom) {
         EtudiantDAO.deleteByNom(nom);
         System.out.println("Étudiant supprimé");
